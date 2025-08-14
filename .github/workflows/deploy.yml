@@ -1,0 +1,49 @@
+name: Build and Deploy (QA & PROD)
+# This workflow runs Supabase migrations for QA and PROD environments.
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - release
+
+jobs:
+  build-and-deploy-qa:
+    name: Build and Deploy to QA
+    runs-on: ubuntu-latest
+    environment: QA
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  # Pulls your repo code
+      - name: Set up Supabase CLI
+        run: npm install -g supabase
+  # Installs Supabase CLI globally
+      - name: Run Supabase migrations (QA)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.QA_SUPABASE_ACCESS_TOKEN }}
+        run: supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }} && supabase db push
+  # Links to QA Supabase project and applies migrations
+
+  build-and-deploy-prod:
+    name: Build and Deploy to PROD
+    runs-on: ubuntu-latest
+    environment: PROD
+    needs: build-and-deploy-qa
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  # Pulls your repo code
+      - name: Set up Supabase CLI
+        run: npm install -g supabase
+  # Installs Supabase CLI globally
+      - name: Run Supabase migrations (PROD)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
+        run: supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }} && supabase db push
+  # Links to PROD Supabase project and applies migrations
+# Required secrets for QA and PROD:
+# - QA_SUPABASE_ACCESS_TOKEN, QA_SUPABASE_PROJECT_REF
+# - PROD_SUPABASE_ACCESS_TOKEN, PROD_SUPABASE_PROJECT_REF
+# - GITHUB_TOKEN (automatically provided)

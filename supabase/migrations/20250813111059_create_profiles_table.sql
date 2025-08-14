@@ -1,5 +1,5 @@
 -- Create profiles table
-CREATE TABLE IF NOT EXISTS public.profiles (
+CREATE TABLE IF NOT EXISTS public.test (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	username text NOT NULL,
 	email text NOT NULL UNIQUE,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 -- Insert sample records
-INSERT INTO public.profiles (username, email, full_name, website)
+INSERT INTO public.test (username, email, full_name, website)
 VALUES
 	('alice', 'alice@example.com', 'Alice Anderson', 'https://alice.dev'),
 	('bob', 'bob@example.com', 'Bob Brown', 'https://bob.dev'),

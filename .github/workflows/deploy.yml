@@ -34,6 +34,12 @@ jobs:
           supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }}
           supabase db push --password $SUPABASE_DB_PASSWORD
         # Links to QA Supabase project and applies migrations
+      - name: Deploy Edge Functions (QA)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.QA_SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase functions deploy --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }}
+        # Deploys all edge functions to QA environment
 
   build-and-deploy-prod:
     name: Build and Deploy to PROD
@@ -61,6 +67,12 @@ jobs:
           supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }}
           supabase db push --password $SUPABASE_DB_PASSWORD
         # Links to PROD Supabase project and applies migrations
+      - name: Deploy Edge Functions (PROD)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase functions deploy --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }}
+        # Deploys all edge functions to PROD environment
 
 # Required secrets for QA and PROD:
 # - QA_SUPABASE_ACCESS_TOKEN, QA_SUPABASE_PROJECT_REF, QA_SUPABASE_DB_PASSWORD

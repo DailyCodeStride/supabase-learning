@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
     if (action === 'list') {
       // Fetch profiles from database
       const { data: profiles, error } = await supabase
-        .from('profiles')
+        .from('test')
         .select('*')
         .limit(10)
       if (error) throw error

@@ -29,9 +29,10 @@ jobs:
       - name: Run Supabase migrations (QA)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.QA_SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.QA_SUPABASE_DB_PASSWORD }}
         run: |
           supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }}
-          supabase db push
+          supabase db push --password $SUPABASE_DB_PASSWORD
         # Links to QA Supabase project and applies migrations
 
   build-and-deploy-prod:
@@ -55,12 +56,13 @@ jobs:
       - name: Run Supabase migrations (PROD)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.PROD_SUPABASE_DB_PASSWORD }}
         run: |
           supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }}
-          supabase db push
+          supabase db push --password $SUPABASE_DB_PASSWORD
         # Links to PROD Supabase project and applies migrations
 
 # Required secrets for QA and PROD:
-# - QA_SUPABASE_ACCESS_TOKEN, QA_SUPABASE_PROJECT_REF
-# - PROD_SUPABASE_ACCESS_TOKEN, PROD_SUPABASE_PROJECT_REF
+# - QA_SUPABASE_ACCESS_TOKEN, QA_SUPABASE_PROJECT_REF, QA_SUPABASE_DB_PASSWORD
+# - PROD_SUPABASE_ACCESS_TOKEN, PROD_SUPABASE_PROJECT_REF, PROD_SUPABASE_DB_PASSWORD
 # - GITHUB_TOKEN (automatically provided)

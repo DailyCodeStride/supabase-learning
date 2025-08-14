@@ -18,15 +18,18 @@ jobs:
         uses: actions/checkout@v4
         # Pulls your repo code
       - name: Install Supabase CLI
-        shell: bash
         run: |
-          curl -sL https://getsupabase.com/cli/install | bash
-          export PATH="$HOME/.supabase/bin:$PATH"
+          curl -o supabase.tar.gz -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz
+          tar -xzf supabase.tar.gz
+          sudo mv supabase /usr/local/bin/
+          supabase --version
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (QA)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.QA_SUPABASE_ACCESS_TOKEN }}
-        run: supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }} && supabase db push
+        run: |
+          supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }}
+          supabase db push
         # Links to QA Supabase project and applies migrations
 
   build-and-deploy-prod:
@@ -39,15 +42,18 @@ jobs:
         uses: actions/checkout@v4
         # Pulls your repo code
       - name: Install Supabase CLI
-        shell: bash
         run: |
-          curl -sL https://getsupabase.com/cli/install | bash
-          export PATH="$HOME/.supabase/bin:$PATH"
+          curl -o supabase.tar.gz -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz
+          tar -xzf supabase.tar.gz
+          sudo mv supabase /usr/local/bin/
+          supabase --version
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (PROD)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
-        run: supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }} && supabase db push
+        run: |
+          supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }}
+          supabase db push
         # Links to PROD Supabase project and applies migrations
 
 # Required secrets for QA and PROD:

@@ -16,15 +16,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-  # Pulls your repo code
+        # Pulls your repo code
       - name: Set up Supabase CLI
-        run: npm install -g supabase
-  # Installs Supabase CLI globally
+        run: |
+          curl -sL https://supabase.com/cli/install | sh
+          export PATH="$HOME/.supabase/bin:$PATH"
+        # Installs Supabase CLI globally
       - name: Run Supabase migrations (QA)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.QA_SUPABASE_ACCESS_TOKEN }}
         run: supabase link --project-ref ${{ secrets.QA_SUPABASE_PROJECT_REF }} && supabase db push
-  # Links to QA Supabase project and applies migrations
+        # Links to QA Supabase project and applies migrations
 
   build-and-deploy-prod:
     name: Build and Deploy to PROD
@@ -34,15 +36,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-  # Pulls your repo code
+        # Pulls your repo code
       - name: Set up Supabase CLI
-        run: npm install -g supabase
-  # Installs Supabase CLI globally
+        run: |
+          curl -sL https://supabase.com/cli/install | sh
+          export PATH="$HOME/.supabase/bin:$PATH"
+        # Installs Supabase CLI globally
       - name: Run Supabase migrations (PROD)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
         run: supabase link --project-ref ${{ secrets.PROD_SUPABASE_PROJECT_REF }} && supabase db push
-  # Links to PROD Supabase project and applies migrations
+        # Links to PROD Supabase project and applies migrations
+
 # Required secrets for QA and PROD:
 # - QA_SUPABASE_ACCESS_TOKEN, QA_SUPABASE_PROJECT_REF
 # - PROD_SUPABASE_ACCESS_TOKEN, PROD_SUPABASE_PROJECT_REF

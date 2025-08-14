@@ -20,8 +20,9 @@ jobs:
       - name: Install Supabase CLI
         run: |
           curl -o supabase.tar.gz -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz
-          tar -xzf supabase.tar.gz
-          sudo mv supabase /usr/local/bin/
+          tar -xzf supabase.tar.gz --strip-components=1
+          sudo mv supabase /usr/local/bin/supabase
+          rm -f supabase.tar.gz
           supabase --version
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (QA)
@@ -44,8 +45,9 @@ jobs:
       - name: Install Supabase CLI
         run: |
           curl -o supabase.tar.gz -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz
-          tar -xzf supabase.tar.gz
-          sudo mv supabase /usr/local/bin/
+          tar -xzf supabase.tar.gz --strip-components=1
+          sudo mv supabase /usr/local/bin/supabase
+          rm -f supabase.tar.gz
           supabase --version
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (PROD)

